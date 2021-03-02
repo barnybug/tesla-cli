@@ -1,0 +1,24 @@
+builds:
+  - binary: tesla
+    main: ./cmd/tesla
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - 386
+      - arm
+      - arm64
+    ignore:
+      - goos: darwin
+        goarch: 386
+    hooks:
+      post:
+      - upx "{{ .Path }}"
+
+archives:
+- name_template: "{{ .ProjectName }}-{{ .Os }}-{{ .Arch }}"
+  format: binary
+  replacements:
+    darwin: mac
