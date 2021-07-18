@@ -266,7 +266,7 @@ func login(c *cli.Context) error {
 	}
 
 	ctx := context.Background()
-	config := tesla.DefaultOAuth2Config
+	config := tesla.OAuth2Config
 
 	code, err := (&auth{
 		AuthURL: config.AuthCodeURL(oauthState(), oauth2.AccessTypeOffline,
