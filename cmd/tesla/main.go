@@ -119,6 +119,10 @@ func main() {
 					Name:  "wheel, w",
 					Usage: "Heating steering wheel",
 				},
+				cli.StringFlag{
+					Name:  "window",
+					Usage: "Vent or close window",
+				},
 			},
 		},
 		{
@@ -485,6 +489,11 @@ func formatTemp(temp *float64) string {
 }
 
 func climate(c *cli.Context) error {
+	window := c.String("window")
+	if window != "" && window != "close" && window != "vent" {
+		return errors.New("window should be 'vent' or 'close'")
+	}
+
 	vehicle, err := getVehicle(c, true)
 	if err != nil {
 		return err
@@ -541,6 +550,15 @@ func climate(c *cli.Context) error {
 			return err
 		}
 		fmt.Printf("Set steering wheel heater to: %t\n", on)
+	}
+
+	if window != "" {
+		driveState, _ := vehicle.DriveState()
+		err := vehicle.WindowControl(window, driveState.Latitude, driveState.Longitude)
+		if err != nil {
+			return err
+		}
+		fmt.Printf("Set windows to: %s\n", window)
 	}
 
 	state, err := vehicle.ClimateState()
