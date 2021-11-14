@@ -466,7 +466,7 @@ func charge(c *cli.Context) error {
 	if state.ChargingState != "Disconnected" {
 		switch state.ChargingState {
 		case "Charging", "Starting":
-			fmt.Printf("Charging: %.0fA %.0fV %.0fkW %d-phase %.1fmi/hr\n", state.ChargerActualCurrent, state.ChargerVoltage, state.ChargerPower, state.ChargerPhases, state.ChargeRate)
+			fmt.Printf("Charging: %.0fA %.0fV %.0fkW %v-phase %.1fmi/hr\n", state.ChargerActualCurrent, state.ChargerVoltage, state.ChargerPower, state.ChargerPhases, state.ChargeRate)
 		case "NoPower":
 			fmt.Println("Charging: Ready to Charge")
 		default:
